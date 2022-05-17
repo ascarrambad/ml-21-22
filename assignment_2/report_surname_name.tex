@@ -1,0 +1,187 @@
+
+%----------------------------------------------------------------------------------------
+%	Machine Learning Assignment Template
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt]{scrartcl}
+\newcommand*\student[1]{\newcommand{\thestudent}{{#1}}}
+
+%----------------------------------------------------------------------------------------
+%	INSERT HERE YOUR NAME
+%----------------------------------------------------------------------------------------
+
+\student{Surname Name}
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Use 8-bit encoding
+\usepackage[sc]{mathpazo}
+\usepackage{caption, subcaption}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{inconsolata}
+
+\usepackage[english]{babel} % English language hyphenation
+\usepackage{amsmath, amsfonts} % Math packages
+\usepackage{listings} % Code listings, with syntax highlighting
+\usepackage{graphicx} % Required for inserting images
+\graphicspath{{Figures/}{./}} % Specifies where to look for included images (trailing slash required)
+\usepackage{float}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT MARGINS
+%----------------------------------------------------------------------------------------
+
+\usepackage{geometry} % For page dimensions and margins
+\geometry{
+	paper=a4paper, 
+	top=2.5cm, % Top margin
+	bottom=3cm, % Bottom margin
+	left=3cm, % Left margin
+	right=3cm, % Right margin
+}
+\setlength\parindent{0pt}
+
+%----------------------------------------------------------------------------------------
+%	SECTION TITLES
+%----------------------------------------------------------------------------------------
+
+\usepackage{sectsty}
+\sectionfont{\vspace{6pt}\centering\normalfont\scshape}
+\subsectionfont{\normalfont\bfseries} % \subsection{} styling
+\subsubsectionfont{\normalfont\itshape} % \subsubsection{} styling
+\paragraphfont{\normalfont\scshape} % \paragraph{} styling
+
+%----------------------------------------------------------------------------------------
+%	HEADERS AND FOOTERS
+%----------------------------------------------------------------------------------------
+
+\usepackage{scrlayer-scrpage}
+\ofoot*{\pagemark} % Right footer
+\ifoot*{\thestudent} % Left footer
+\cfoot*{} % Centre footer
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\title{	
+	\normalfont\normalsize
+	\textsc{Machine Learning\\%
+	Universit\`a della Svizzera italiana}\\
+	\vspace{25pt}
+	\rule{\linewidth}{0.5pt}\\
+	\vspace{20pt}
+	{\huge Assignment 2}\\
+	\vspace{12pt}
+	\rule{\linewidth}{1pt}\\
+	\vspace{12pt}
+}
+
+\author{\LARGE \thestudent}
+
+\date{\normalsize\today}
+
+\begin{document}
+
+\maketitle
+
+In this assignment you are asked to:
+
+\begin{enumerate}
+\item Implement a neural network to classify images from the \texttt{CIFAR10} dataset;
+\item Implement a fully connected feed forward neural network to classify images from the \texttt{CIFAR10} dataset.
+\end{enumerate}
+
+Both requests are very similar to what we have seen during the labs. However, you are required to follow \textbf{exactly} the assignment's specifications.
+
+%----------------------------------------------------------------------------------------
+%	Task 1
+%----------------------------------------------------------------------------------------
+
+\section{Follow our recipe}
+
+Implement a multi-class classifier to identify the subject of the images from \href{https://www.cs.toronto.edu/\%7Ekriz/cifar.html}{\texttt{CIFAR-10}} data set. To simply the problem, we restrict the classes to 3: \texttt{airplane}, \texttt{automobile} and \texttt{bird}.
+
+\begin{enumerate}
+\item Download and load \texttt{CIFAR-10} dataset using the following \href{https://www.tensorflow.org/api_docs/python/tf/keras/datasets/cifar10/load_data}{function}, and consider only the first three classes. Check \texttt{src/utils.py}, there is already a function for this!
+\item Preprocess the data:
+\begin{itemize}
+\item Normalize each pixel of each channel so that the range is [0, 1];
+\item Create one-hot encoding of the labels.
+\end{itemize}
+\item Build a neural network with the following architecture:
+\begin{itemize}
+\item Convolutional layer, with 8 filters of size 5$\times$5, stride of 1$\times$1, and ReLU activation;
+\item Max pooling layer, with pooling size of 2$\times$2;
+\item Convolutional layer, with 16 filters of size 3$\times$3, stride of 2$\times$2, and ReLU activation;
+\item Average pooling layer, with pooling size of 2$\times$2;
+\item Layer to convert the 2D feature maps to vectors (Flatten layer);
+\item Dense layer with 8 neurons and tanh activation;
+\item Dense output layer with softmax activation;
+\end{itemize}
+\item Train the model on the training set from point 1 for 500 epochs:
+\begin{itemize}
+\item Use the RMSprop optimization algorithm, with a learning rate of 0.003 and a batch size of 128;
+\item Use categorical cross-entropy as a loss function;
+\item Implement early stopping, monitoring the validation accuracy of the model with a patience of 10 epochs and use 20\% of the training data as validation set;
+\item When early stopping kicks in, and the training procedure stops, restore the best model found during training.
+\end{itemize}
+\item Draw a plot with epochs on the $x$-axis and with two graphs: the train accuracy and the validation accuracy (remember to add a legend to distinguish the two graphs!).
+\item Assess the performances of the network on the test set loaded in point 1, and provide an estimate of the classification accuracy that you expect on new and unseen images.
+\item \textbf{Bonus} (Optional) Tune the learning rate and the number of neurons in the last dense hidden layer with a \textbf{grid search} to improve the performances (if feasible).
+\begin{itemize}
+\item Consider the following options for the two hyper-parameters (4 models in total):
+\begin{itemize}
+\item learning rate: [0.01, 0.0001]
+\item number of neurons: [16, 64]
+\end{itemize}
+\item Keep all the other hyper-parameters as in point 3.
+\item Perform a grid search on the chosen ranges based on hold-out cross-validation in the training set and identify the most promising hyper-parameter setup.
+\item Compare the accuracy on the test set achieved by the most promising configuration with that of the model obtained in point 4. Are the accuracy levels statistically different?
+\end{itemize}
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	Task 2
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Image Classification with Fully Connected Feed Forward Neural Networks}
+
+In this task, we will try and build a classifier for the first 3 classes of the \texttt{CIFAR10} dataset. 
+This time, however, we will not use a Convolutional Neural Network, but a classic Feed Forward Neural Network instead.
+
+\begin{enumerate}
+\item Follow steps 1 and 2 from T1 to prepare the data.
+\item Flatten the images into 1D vectors. You can achieve that by using \href{https://www.tensorflow.org/api_docs/python/tf/reshape}{tf.reshape} or by prepending a \href{https://keras.io/api/layers/reshaping_layers/flatten/}{Flatten layer} to your architecture; if you follow this approach this layer will not count for the rules at point 3.
+\item Build a Feed Forward Neural Network of your choice, following these constraints:
+\begin{itemize}
+	\item Use only Dense layers.
+	\item Use no more than 3 layers, considering also the output one.
+	\item Use ReLU activation for all layers other than the output one.
+	\item Use Softmax activation for the output layer.
+\end{itemize}
+\item Follow step 4 of T1 to train the model.
+\item Follow steps 5 and 6 of T1 to assess performance.
+\item Qualitatively compare the results obtained in T1 with the ones obtained in T2. Explain what you think the motivations for the difference in performance may be.
+\item \textbf{Bonus} (Optional) Train your architecture of choice (you are allowed to change the input layer dimensionality!) following the same procedure as above, but, instead of the flattened images, use any feature of your choice as input. 
+You can think of these extracted features as a conceptual equivalent of the Polynomial Features you saw in Regression problems, where the input data were 1D vectors. 
+Remember that images are just 3D tensors (HxWxC) where the first two dimensions are the Height and Width of the image and the last dimension represents the channels (usually 3 for RGB images, one for red, one for green and one for blue). 
+You can compute functions of these data as you would for any multi-dimensional array. 
+A few examples of features that can be extracted from images are:
+\begin{itemize}
+	\item Mean and variance over the whole image.
+	\item Mean and variance for each channel.
+	\item Max and min values over the whole image.
+	\item Max and min values for each channell.
+	\item Ratios between statistics of different channels (e.g. Max Red / Max Blue)
+	\item \href{https://en.wikipedia.org/wiki/Image_histogram}{Image Histogram} (Can be compute directly on \href{https://www.tensorflow.org/api_docs/python/tf/histogram_fixed_width}{TF Tensors} or by temporarely converting to numpy arrays and using \href{https://numpy.org/doc/stable/reference/generated/numpy.histogram.html}{np.histogram})
+\end{itemize}
+But you can use anything that you think may carry useful information to classify an image.
+
+\textbf{N.B.} If you carry out point 7 also consider the obtained model and results in the discussion of point 6.
+\end{enumerate}
+
+\end{document}

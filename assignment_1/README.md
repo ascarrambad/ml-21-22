@@ -26,7 +26,7 @@ Consider any family of non-linear models of your choice to address the above reg
 ### T3. (Bonus)
 
 In the [Github repository of the course](https://github.com/ascarrambad/ml-21-22), you will find a trained Scikit-learn model that we built using the same dataset you are given. This _baseline_ model is able to achieve a MSE of **0.0197**, when evaluated on the test set.
-You will get extra points if you provide a model of your choice whose test performance is **better** (i.e., the MSE is lower) than ours. Of course, you also have to tell us **why** you think that your model is performin better.
+You will get extra points if you provide a model of your choice whose test performance is **better** (i.e., the MSE is lower) than ours. Of course, you also have to tell us **why** you think that your model is performing better.
 
 
 In order to complete the assignment, you must submit a zip file on the iCorsi platform containing:
@@ -64,7 +64,7 @@ Now, we add another regressor (feature) `x_3` (to obtain `f(x, theta) = theta_0 
 
 1. `x_3 = x_1 + 3 * x_2`.
 2. `x_3 = x_1 * x_2^2`.
-3. Can we make any educated guess on what would be the value of `theta_3` for each of the preceeding cases if we used Lasso Regression?
+3. Can we make any educated guess on what would be the value of `theta_3` for each of the preceding cases if we used Lasso Regression?
 4. Explain the motivation behind Ridge and Lasso regression and their principal differences.
 
 Motivate your answers.
@@ -111,7 +111,7 @@ The contents of the folder are as follows:
 - `src/`:
     - `utils.py`: some utility methods to save and load models;
 - `report_surname_name.pdf`: an example of the report;
-- `report_surname_name.tex`: the LaTeX source for the provided report pdf;
+- `report_surname_name.tex`: the LaTeX source for the provided report PDF;
 
 The `run_model.py` script loads the data from the data folder, loads a model from file, and evaluates the model's MSE on the loaded data.  
 When evaluating your models on the unseen test set, **we will only run this script**.  
@@ -123,8 +123,8 @@ You must submit a zip file with a structure similar to the repository, but:
     - `run_model.py`, edited in order to work with your models;
     - the saved models for both tasks (linear regression and the model of your choice);
     - any additional file to load the trained models and evaluate their performance using `run_model.py`;
-- the `src` folder must contain all the source files that your used to build, train, and evaluate your models;
-- the report must be a pdf file (no need for the `.tex` file) covering both the tasks and the questions.
+- the `src` folder must contain all the source files that you used to build, train, and evaluate your models;
+- the report must be a PDF file (no need for the `.tex` file) covering both the tasks and the questions.
 
 The file should have the following structure:
 ```bash
